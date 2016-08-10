@@ -1,5 +1,5 @@
 # FirelinkServices
-A growing spring boot service.
+A simple spring boot service.
 
 #### Local Setup
 1. Install Maven \(Link [here](https://maven.apache.org/download.cgi)\)
