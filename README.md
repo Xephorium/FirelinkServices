@@ -1,6 +1,8 @@
-FirelinkServices
+![alt text][logo]FirelinkServices
 ===
 A simple suite of spring boot services.
+
+[logo]: https://github.com/Xephorium/FirelinkServices/blob/master/img/icon_transparent_small.png "Logo"
 
 #### Local Setup
   1. Install Maven \(Link [here](https://maven.apache.org/download.cgi)\)
