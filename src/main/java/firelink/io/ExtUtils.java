@@ -145,6 +145,14 @@ public class ExtUtils {
             return false;
     }
 
+    public static String removeExtension(String fileName) {
+        return fileName.substring(0, fileName.length() - (getExtensionLength(fileName) + 1));
+    }
+
+    public static String removeExtension(File file) {
+        return file.getName().substring(0, file.getName().length() - (getExtensionLength(file.getName()) + 1));
+    }
+
 
     /*--- Getters & Setters ---*/
 

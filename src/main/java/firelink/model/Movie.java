@@ -18,28 +18,39 @@ public class Movie {
     /*--- Class Fields ---*/
 
     private static final int DEFAULT_LENGTH = -1;
-    private String name;
-    private String extension;
+    private String  name;
+    private String  ext;
+    private boolean subs;
     // private int    length;
 
 
     /*--- Constructors ---*/
 
     public Movie() {
-        name      = null;
-        extension = null;
+        name = null;
+        ext  = null;
+        subs = false;
         // length    = DEFAULT_LENGTH;
     }
 
     public Movie(String movieName) {
-        name      = movieName;
-        extension = null;
+        name = movieName;
+        ext  = null;
+        subs = false;
         // length    = DEFAULT_LENGTH;
     }
 
     public Movie(File movieFile) {
-        name      = getNameFromFile(movieFile);
-        extension = ExtUtils.getExtension(movieFile);
+        name = getNameFromFile(movieFile);
+        ext  = ExtUtils.getExtension(movieFile);
+        subs = false;
+        // length    = getLengthFromFile(movieFile);
+    }
+
+    public Movie(File movieFile, boolean subtitles) {
+        name = getNameFromFile(movieFile);
+        ext  = ExtUtils.getExtension(movieFile);
+        subs = subtitles;
         // length    = getLengthFromFile(movieFile);
     }
 
@@ -66,6 +77,20 @@ public class Movie {
         return DEFAULT_LENGTH;
     }
 
+    public static String movieHasSubtitles(File movieFile) {
+
+        // Scan Backwards For '/' Denoting Name Start
+        for(int x = (movieFile.toString().length() - 1); x > 0; x--) {
+            if(movieFile.toString().charAt(x) == '/') {
+
+                // Return Movie Name Without Path or Extension
+                return movieFile.toString().substring(x + 1, (movieFile.toString().length() - (ExtUtils.getExtensionLength(movieFile) + 1)));
+            }
+        }
+
+        return null;
+    }
+
 
     /*--- Setters & Getters ---*/
 
@@ -77,13 +102,20 @@ public class Movie {
         this.name = name;
     }
 
-
-    public String getExtension() {
-        return extension;
+    public String getExt() {
+        return ext;
     }
 
-    public void setExtension(String extension) {
-        this.extension = extension;
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    public boolean getSubs() {
+        return subs;
+    }
+
+    public void setSubs(boolean subs) {
+        this.subs = subs;
     }
 
     // public int getLength() {

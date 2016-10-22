@@ -8,7 +8,9 @@ package firelink.io;
 
 */
 
-import firelink.model.Movie;
+import firelink.model.*;
+import firelink.request.*;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class MediaReader {
     private static final String DOCUMENTS_DIRECTORY = BONFIRE_DIRECTORY + "/Documents";
     private static final String GAMES_DIRECTORY = BONFIRE_DIRECTORY + "/Games";
     private static final String MOVIES_DIRECTORY = BONFIRE_DIRECTORY + "/Movies";
+    private static final String MOVIE_SUBS_DIRECTORY = BONFIRE_DIRECTORY + "/Movies/Subtitles";
     private static final String SHOWS_DIRECTORY = BONFIRE_DIRECTORY + "/Shows";
 
 
@@ -33,22 +36,53 @@ public class MediaReader {
         File[] videoFiles = getVideoFiles(getDirectoryContents(MOVIES_DIRECTORY));
         ArrayList<String> movieNames = new ArrayList<String>();
 
-        for(int x = 0; x < videoFiles.length; x++) {
+        for (int x = 0; x < videoFiles.length; x++) {
             movieNames.add(Movie.getNameFromFile(videoFiles[x]));
         }
         return movieNames;
     }
 
     // Returns Unsorted List of Movie Objects
-    public static ArrayList<Movie> getMovieData() {
+    public static ArrayList<Movie> getMovieList() {
 
         File[] videoFiles = getVideoFiles(getDirectoryContents(MOVIES_DIRECTORY));
+        ArrayList<String> subtitleNames = getMovieSubtitleNames();
         ArrayList<Movie> movieData = new ArrayList<Movie>();
 
-        for(int x = 0; x < videoFiles.length; x++) {
-            movieData.add(new Movie(videoFiles[x]));
+        for (int x = 0; x < videoFiles.length; x++) {
+            boolean hasSubs = false;
+
+            for (int y = 0; y < subtitleNames.size(); y++) {
+                if(subtitleNames.get(y).equals(new Movie(videoFiles[x]).getName()))
+                    hasSubs = true;
+            }
+            movieData.add(new Movie(videoFiles[x], hasSubs));
         }
         return movieData;
+    }
+
+    // Returns Details of a Particular Movie
+    public static Movie getMovieDetails(String name) {
+
+        ArrayList<Movie> movies = getMovieList();
+
+        for (int x = 0; x < movies.size(); x++) {
+            if (movies.get(x).getName().equals(name))
+                return movies.get(x);
+        }
+        return null;
+    }
+
+    // Returns Unsorted List of Movie Subtitle Names
+    public static ArrayList<String> getMovieSubtitleNames() {
+
+        File[] subtitleFiles = getValidFiles(getDirectoryContents(MOVIE_SUBS_DIRECTORY));
+        ArrayList<String> subNames = new ArrayList<String>();
+
+        for (int x = 0; x < subtitleFiles.length; x++) {
+            subNames.add(ExtUtils.removeExtension(subtitleFiles[x].getName()));
+        }
+        return subNames;
     }
 
 
@@ -72,7 +106,6 @@ public class MediaReader {
         // Return Movie Names
         return shows;
     }
-
 
 
     /*--- Utility Methods ---*/
@@ -125,6 +158,10 @@ public class MediaReader {
 
     public static String getMoviesDirectory() {
         return MOVIES_DIRECTORY;
+    }
+
+    public static String getMovieSubsDirectory() {
+        return MOVIE_SUBS_DIRECTORY;
     }
 
     public static String getShowsDirectory() {
