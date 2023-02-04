@@ -1,0 +1,33 @@
+
+/// -------------- *** -------------- ///
+///                                   ///
+///         Building Services         ///
+///                                   ///
+/// -------------- *** -------------- ///
+
+
+Prerequisite Steps:
+• Download IDE (IntelliJ)
+• Install Maven
+
+Initial Project Setup
+• Open Sample Project in IntelliJ
+• Resolve Gradle Dependencies
+• Create Run Commands
+  - Run Service: 'spring-boot:run'
+  - Resolve Dependencies: 'Dependency:resolve'
+  - Build Jar File: 'clean package'
+• Run 'Resolve Dependencies'
+  - If 'org.springframework.asm.ClassVisitor' not defined,
+    manually delete .m2/repository/org/springframework dir
+    and try again. It becomes corrupt.
+• Run 'Run Service'
+
+http://24.217.110.59:8080/home
+http://24.217.110.59:8080/movies
+
+Desired Server Behavior:
+• http://server:8080/firelink Manages All Incoming Requests
+	- Determines Intent Based on Request "type"
+	- Secured by Public/Private Key Paring
+
